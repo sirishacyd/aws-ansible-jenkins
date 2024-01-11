@@ -100,3 +100,26 @@ Step 1: Launch ec2 instance with t2.micro and ubuntu AMI. I have used following 
 ```
 ![ec2](screenshots/ec2terraform.png)
 ![ec2](screenshots/ec2.png)
+
+Install Jenkins and Trivy :
+
+SSH into created ec2 instance and make following .sh files to install required package
+
+**jenkins-install.sh**
+```
+ #!/bin/bash
+
+ sudo apt update -y
+ sudo apt install fontconfig openjdk-17-jre -y
+ sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+   https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+   /etc/apt/sources.list.d/jenkins.list > /dev/null
+ sudo apt-get update -y
+ sudo apt-get install jenkins -y
+ sudo systemctl enable jenkins
+ sudo systemctl start jenkins
+ sudo systemctl status jenkins
+```
+
