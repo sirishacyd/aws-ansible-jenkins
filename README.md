@@ -1,16 +1,25 @@
 # Efficient AWS Infrastructure Management
 
 ## Introduction
+
 Ansible and Jenkins for streamlined AWS infrastructure management. Leveraging Infrastructure as Code (IaC), automate EC2 provisioning for efficient, reliable deployments.
 
 ## Technologies
+
 **Ansible**: Automates AWS resource provisioning and configuration.
+
 **Jenkins**: Manages deployment pipelines and integrates with Ansible for continuous integration.
+
 **AWS**: Provides scalable cloud computing resources.
+
 **Docker**: Facilitates application containerization for versatile deployments.
+
 **Trivy**: Performs security scanning to identify system vulnerabilities.
+
 **Boto/Boto3**: Python libraries for AWS interactions.
+
 **GitHub**: Hosts our code repository for collaboration and version control.
+
 
 ## Project Architecture
 
@@ -18,8 +27,8 @@ Ansible and Jenkins for streamlined AWS infrastructure management. Leveraging In
 
 ## Project steps:
 
-Step 1: Launch ec2 instance with t2.micro and ubuntu AMI. I have used following terraform file to launch it.
-
+1. **Launch EC2 Instance**
+   - Use Terraform to launch an EC2 instance with a specified script
 
 ```
     provider "aws" {
@@ -47,8 +56,6 @@ Step 1: Launch ec2 instance with t2.micro and ubuntu AMI. I have used following 
         value = [for instance in aws_instance.my_instance : instance.public_ip]
 
     }
-
-
 
     #Create security group 
     resource "aws_security_group" "terraform-instance-sg" {
@@ -99,13 +106,15 @@ Step 1: Launch ec2 instance with t2.micro and ubuntu AMI. I have used following 
     }
 ```
 ![ec2](screenshots/ec2terraform.png)
+
 ![ec2](screenshots/ec2.png)
 
-Install Jenkins and Trivy :
-
-SSH into created ec2 instance and make following .sh files to install required package
+2. **Install Jenkins**
+   - SSH into the created EC2 instance.
+   - Execute `jenkins-install.sh` to install Jenkins.
 
 **jenkins-install.sh**
+
 ```
  #!/bin/bash
 
@@ -129,7 +138,10 @@ Run following command to install it.
 ```
 ![jenkins](screenshots/jenkins-install.png)
 
-**trivy-install.sh**
+
+3. **Install Trivy**
+   - Run `trivy-install.sh` script on the EC2 instance to install Trivy.
+   
 ```
  #!/bin/bash
  sudo apt-get install wget apt-transport-https gnupg lsb-release -y
@@ -145,10 +157,13 @@ Run following command to install it.
  chmod 777 trivy-install.sh
  ./trivy-install.sh
 ```
+
 ![trivy](screenshots/trivy-install.png)
 
 
-**ansible-install.sh**
+4. **Install Ansible**
+   - Execute `ansible-install.sh` on the EC2 instance for Ansible installation.
+
 ```
  #!/bin/bash
  sudo apt update -y
@@ -160,12 +175,17 @@ Run following command to install it.
 ```
 
 Run Following command to install it.
+
 ```
  chmod 777 ansible-install.sh
  ./ansible-install.sh
 ```
 
 ![ansible](screenshots/ansible-install.png)
+
+
+5. **Install Boto**
+   - Run `boto-install.sh` to install Boto and Boto3 on the EC2 instance.
 
 **boto-install.sh**
 
@@ -177,13 +197,19 @@ Run Following command to install it.
  pip list boto | grep boto
 ```
 Run following command to install it
+
 ```
  chmod 777 boto-install.sh
  ./boto-install.sh
 ```
 
 ![boto](screenshots/boto-install.png)
-After executing these scripts, grab your EC2 instance's Public IP Address and open it in the browser:
+
+
+6. **Access Jenkins**
+   - Open Jenkins using the Public IP of the EC2 instance.
+   - Complete Jenkins setup using the initial admin password.
+   
 ```
  http://<EC2 Public IP Address:8080>
 ```
@@ -192,32 +218,33 @@ It will prompt for a password, which you can obtain using:
 
 ![jenkins](screenshots/jenkins.png)
 
-
-get password by following command:
-
 ```
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-Create a user, click save, and continue. Explore Jenkins via the Getting Started Screen.
 ![jenkins](screenshots/jenkins-main.png)
 
 
-Now Lets create IAM Role for Ec2 instance to create new instance.
+7. **Create IAM Role for EC2**
+   - Create a new IAM role with EC2 full access in AWS IAM Console.
 
-click on create role in IAM console.
-Now Select Usecase for EC2 and click Next.
-Search for AmazonEc2FullAccess and click Next. Give a name and create role.
-Now Goto Ec2 instance dashboard and select our insatnce and modify IAM role for it
+- Go to IAM Console, click `Create Role`.
+- Select `EC2` use case, then `Next`.
+- Search and select `AmazonEc2FullAccess`, click `Next`.
+- Name the role, click `Create Role`.
+- In EC2 Dashboard, select instance, modify IAM role.
 
 ![role](screenshots/rolecicd.png)
 
 
-Let’s go to the Jenkins machine and add the Ansible Plugin
+8. **Add Ansible Plugin to Jenkins**
+   - Install the Ansible plugin in Jenkins through the Manage Plugins section.
 
-Manage Jenkins → Plugins → Available Plugins
-
-search for Ansible and install
+- Navigate to **Manage Jenkins**.
+- Select **Manage Plugins**.
+- Go to the **Available** tab.
+- Search for `Ansible`.
+- Install the plugin.
 
 ![jenkinspl](screenshots/jenkins-ansplugin.png)
 
@@ -232,12 +259,13 @@ ubuntu@ip-172-31-19-164:~$ which ansible
 /usr/bin/ansible
 ```
 
-Copy that path and add it to the tools section of Jenkins at ansible installations.
-
+9. **Configure Ansible in Jenkins**
+   - Add the installed Ansible path in Jenkins configuration.
 
 ![ansconf](screenshots/ansconf.png)
 
-Finally, create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
+
+## create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
 
 ```
 ---
@@ -324,7 +352,9 @@ Finally, create an Ansible playbook and upload it to your GitHub repository. The
 ```
 
 ![jen-job](screenshots/jenkins-job.png)
-Create a Jenkins pipeline using the provided code, and execute it by clicking "Build Now.
+
+10. **Create Jenkins Pipeline**
+    - Create and execute a Jenkins pipeline with provided code for tasks like Trivy security scanning and Ansible provisioning.
 
 ```
 pipeline {
@@ -360,9 +390,14 @@ pipeline {
 ```
 
 ![build](screenshots/build.png)
+
 ![ans](screenshots/ans-deployment.png)
 
-Retrieve the Public IP of the newly provisioned instance, visit <public-ip:8080>, and enjoy a game!
+11. **Access the Deployed Game**
+    - Use the Public IP of the new EC2 instance to access the deployed game.
+
+- Retrieve the **Public IP** newly provisioned instance.
+- visit `http://<public-ip>:8080`
 
 
 ![game](screenshots/game.png)
