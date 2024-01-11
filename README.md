@@ -145,3 +145,4 @@ Run following command to install it.
  chmod 777 trivy-install.sh
  ./trivy-install.sh
 ```
+![trivy](screenshots/trivy-install.png)
