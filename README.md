@@ -321,8 +321,9 @@ Finally, create an Ansible playbook and upload it to your GitHub repository. The
           sudo systemctl enable docker
           docker run -d --name game -p 8080:80 siri/docker-2048
       register: ec2
-
 ```
+
+![jen-job](screenshots/jenkins-job.png)
 Create a Jenkins pipeline using the provided code, and execute it by clicking "Build Now.
 
 ```
