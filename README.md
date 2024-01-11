@@ -166,3 +166,25 @@ Run Following command to install it.
 ```
 
 ![ansible](screenshots/ansible-install.png)
+
+**boto-install.sh**
+
+```
+ #!/bin/bash
+ sudo apt install python3-pip -y
+ sudo pip3 install boto boto3 -y
+ sudo apt-get install python3-boto -y
+ pip list boto | grep boto
+```
+Run following command to install it
+```
+ chmod 777 boto-install.sh
+ ./boto-install.sh
+```
+
+![boto](screenshots/boto-install.png)
+After executing these scripts, grab your EC2 instance's Public IP Address and open it in the browser:
+```
+ http://<EC2 Public IP Address:8080>
+```
+
