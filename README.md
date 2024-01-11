@@ -188,3 +188,6 @@ After executing these scripts, grab your EC2 instance's Public IP Address and op
  http://<EC2 Public IP Address:8080>
 ```
 
+It will prompt for a password, which you can obtain using:
+
+![jenkins](screenshots/jenkins.png)
