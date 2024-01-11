@@ -122,5 +122,26 @@ SSH into created ec2 instance and make following .sh files to install required p
  sudo systemctl start jenkins
  sudo systemctl status jenkins
 ```
-
+Run following command to install it.
+```
+ chmod 777 jenkins-install.sh
+ ./jenkins-install.sh
+```
 ![jenkins](screenshots/jenkins-install.png)
+
+**trivy-install.sh**
+```
+ #!/bin/bash
+ sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+ wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+ echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+ sudo apt-get update -y
+ sudo apt-get install trivy -y
+```
+
+Run following command to install it.
+
+```
+ chmod 777 trivy-install.sh
+ ./trivy-install.sh
+```
