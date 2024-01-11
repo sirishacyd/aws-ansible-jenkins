@@ -206,4 +206,17 @@ Create a user, click save, and continue. Explore Jenkins via the Getting Started
 Now Lets create IAM Role for Ec2 instance to create new instance.
 
 click on create role in IAM console.
+Now Select Usecase for EC2 and click Next.
+Search for AmazonEc2FullAccess and click Next. Give a name and create role.
+Now Goto Ec2 instance dashboard and select our insatnce and modify IAM role for it
 
+![role](screenshots/rolecicd.png)
+
+
+Let’s go to the Jenkins machine and add the Ansible Plugin
+
+Manage Jenkins → Plugins → Available Plugins
+
+search for Ansible and install
+
+![jenkinspl](screenshots/jenkins-plugin.png)
