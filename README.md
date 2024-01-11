@@ -123,3 +123,4 @@ SSH into created ec2 instance and make following .sh files to install required p
  sudo systemctl status jenkins
 ```
 
+![jenkins](screenshots/jenkins-install.png)
