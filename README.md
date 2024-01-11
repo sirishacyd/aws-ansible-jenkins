@@ -146,3 +146,23 @@ Run following command to install it.
  ./trivy-install.sh
 ```
 ![trivy](screenshots/trivy-install.png)
+
+
+**ansible-install.sh**
+```
+ #!/bin/bash
+ sudo apt update -y
+ sudo apt install spftware-properties-common
+ sudo add-apt-repository --yes --update ppa:ansible/ansible
+ sudo apt install python3 -y
+ sudo apt install ansible -y
+ ansible --version
+```
+
+Run Following command to install it.
+```
+ chmod 777 ansible-install.sh
+ ./ansible-install.sh
+```
+
+![ansible](screenshots/ansible-install.png)
