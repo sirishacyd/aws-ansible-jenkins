@@ -322,8 +322,8 @@ Finally, create an Ansible playbook and upload it to your GitHub repository. The
           docker run -d --name game -p 8080:80 siri/docker-2048
       register: ec2
 
-
-Create a Jenkins pipeline using the provided code, and execute it by clicking "Build Now."
+```
+Create a Jenkins pipeline using the provided code, and execute it by clicking "Build Now.
 
 ```
 pipeline {
@@ -357,9 +357,11 @@ pipeline {
     }
 }
 ```
+
 ![build](screenshots/build.png)
 ![ans](screenshots/ans-deployment.png)
 
 Retrieve the Public IP of the newly provisioned instance, visit <public-ip:8080>, and enjoy a game!
+
 
 ![game](screenshots/game.png)
