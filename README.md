@@ -219,4 +219,5 @@ Manage Jenkins → Plugins → Available Plugins
 
 search for Ansible and install
 
-![jenkinspl](screenshots/jenkins-plugin.png)
+![jenkinspl](screenshots/jenkins-ansplugin.png)
+
