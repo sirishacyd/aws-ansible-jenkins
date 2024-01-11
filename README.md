@@ -400,3 +400,6 @@ pipeline {
 
 
 ![game](screenshots/game.png)
+
+
+This project effectively combines Terraform, Ansible, and Jenkins to manage AWS infrastructure. It offers a seamless deployment pipeline with security and containerization, ideal for scalable and secure cloud operations
