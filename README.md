@@ -201,3 +201,9 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 Create a user, click save, and continue. Explore Jenkins via the Getting Started Screen.
 ![jenkins](screenshots/jenkins-main.png)
+
+
+Now Lets create IAM Role for Ec2 instance to create new instance.
+
+click on create role in IAM console.
+
