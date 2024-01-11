@@ -12,58 +12,32 @@
       debug:
         msg: "Using Python {{ ansible_python_version }}"
     - name: Install dependencies
-      shell: "/usr/bin/python3.10 -m pip install {{ item }}"
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        executable: /usr/bin/python3.10
       loop:
         - boto3
         - botocore
+
   vars:
     ansible_python_interpreter: /usr/bin/python3.10
-    keypair: linux-kp
+    keypair: devops
     instance_type: t2.micro
     image_id: ami-05fb0b8c1424f266b  # AMI ID
     wait: yes
     group: webserver
     count: 1
     region: us-east-2
-    security_group: sg-07d2be0a6adc5f0d7  # Security Group ID
+    vpc_id: vpc-0657d78c02ef86ae1
+    security_group_id: sg-095a9891af40155a0
     tag_name:
       Name: demo-ec2
 
   tasks:
-    - name: Create a security group
-      amazon.aws.ec2_group:
-        name: "{{ security_group }}"
-        description: Security group for web server instance
-        region: "{{ region }}"
-        rules:
-          - proto: tcp
-            from_port: 22
-            to_port: 22
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 8080
-            to_port: 8080
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 5000
-            to_port: 5000
-            cidr_ip: 0.0.0.0/0  
-          - proto: tcp
-            from_port: 80
-            to_port: 80
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 443
-            to_port: 443
-            cidr_ip: 0.0.0.0/0
-        rules_egress:
-          - proto: all
-            cidr_ip: 0.0.0.0/0
-      register: basic_firewall
-
     - name: Launch the new EC2 Instance
       amazon.aws.ec2_instance:
-        security_group: "{{ security_group }}"
+        vpc_subnet_id: "{{ vpc_id }}"
+        security_group: "{{ security_group_id }}"
         instance_type: "{{ instance_type }}"
         image_id: "{{ image_id }}"
         wait: "{{ wait }}"
@@ -79,4 +53,3 @@
           sudo systemctl enable docker
           docker run -d --name game -p 8080:80 sirisha7474/myapp
       register: ec2
-      when: existing_instances.instances | length == 0
