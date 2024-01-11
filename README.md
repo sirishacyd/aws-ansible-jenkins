@@ -191,3 +191,12 @@ After executing these scripts, grab your EC2 instance's Public IP Address and op
 It will prompt for a password, which you can obtain using:
 
 ![jenkins](screenshots/jenkins.png)
+
+
+get password by following command:
+
+```
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Create a user, click save, and continue. Explore Jenkins via the Getting Started Screen.
