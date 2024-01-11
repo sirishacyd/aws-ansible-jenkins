@@ -264,8 +264,7 @@ ubuntu@ip-172-31-19-164:~$ which ansible
 
 ![ansconf](screenshots/ansconf.png)
 
-
-## create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
+- create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
 
 ```
 ---
