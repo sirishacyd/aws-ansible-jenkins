@@ -98,4 +98,5 @@ Step 1: Launch ec2 instance with t2.micro and ubuntu AMI. I have used following 
       }
     }
 ```
-
+![ec2](screenshots/ec2terraform.png)
+![ec2](screenshots/ec2.png)
