@@ -233,3 +233,8 @@ ubuntu@ip-172-31-19-164:~$ which ansible
 ```
 
 Copy that path and add it to the tools section of Jenkins at ansible installations.
+
+
+![ansconf](screenshots/ansconf.png)
+
+Finally, create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
