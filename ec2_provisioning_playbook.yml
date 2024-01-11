@@ -24,7 +24,7 @@
     wait: yes
     group: webserver
     count: 1
-    region: us-east-1
+    region: us-east-2
     security_group: sg-07d2be0a6adc5f0d7  # Security Group ID
     tag_name:
       Name: demo-ec2
@@ -79,3 +79,4 @@
           sudo systemctl enable docker
           docker run -d --name game -p 8080:80 sirisha7474/myapp
       register: ec2
+      when: existing_instances.instances | length == 0
