@@ -238,3 +238,122 @@ Copy that path and add it to the tools section of Jenkins at ansible installatio
 ![ansconf](screenshots/ansconf.png)
 
 Finally, create an Ansible playbook and upload it to your GitHub repository. The playbook provisions a new EC2 instance and security group. Here is a sample playbook:
+
+```
+---
+- name: Povising a new ec2 instance and sg
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tags: provisioning
+
+  pre_tasks:
+    - name: Gather facts
+      setup:
+    - name: print python version
+      debug:
+        msg: "Using Python {{ ansible_python_version }}"
+    - name: Install dependencies
+      shell: "/usr/bin/python3.10 -m pip install {{ item }}"
+      loop:
+      - boto3
+      - botocore
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
+    keypair: linux-kp
+    instance_type: t2.micro
+    image_id: ami-0c7217cdde317cfec
+    wait: yes
+    group: webserver
+    count: 1
+    region: us-east-2
+    security_group: ec2-security-group
+    tag_name:
+      Name: demo-ec2
+
+  tasks:
+
+    - name: Create a security group
+      amazon.aws.ec2_group:
+        name: "{{ security_group }}"
+        description: Security group for web server instance
+        region: "{{ region }}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 8080
+            to_port: 8080
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 5000
+            to_port: 5000
+            cidr_ip: 0.0.0.0/0  
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
+      register: basic_firewall
+    - name: Launch the new ec2 INstance
+      amazon.aws.ec2_instance:
+        security_group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image_id: "{{ image_id }}"
+        wait: "{{ wait }}"
+        region: "{{ region }}"
+        key_name: "{{ keypair }}"
+        count: "{{ count }}"
+        tags: "{{ tag_name }}"
+        user_data: |
+          #!/bin/bash
+          sudo apt update -y
+          sudo apt install docker.io -y
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          docker run -d --name game -p 8080:80 siri/docker-2048
+      register: ec2
+
+
+Create a Jenkins pipeline using the provided code, and execute it by clicking "Build Now."
+
+```
+pipeline {
+    agent any
+    tools{
+        ansible 'ansible'
+    }
+    stages {
+        stage('cleanws') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('checkout'){
+            steps{
+                git branch: 'main', url: 'https://github.com/sirishacyd/aws-ansible-jenkins'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }    
+        stage('ansible provision') {
+          steps {
+             // To suppress warnings when you execute the playbook    
+             sh "pip install --upgrade requests==2.20.1"
+             ansiblePlaybook playbook: 'ec2.yml' 
+            }
+        }
+    }
+}
+
