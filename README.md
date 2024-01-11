@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Ansible and Jenkins for streamlined AWS infrastructure management. Leveraging Infrastructure as Code (IaC), automate EC2 provisioning for efficient, reliable deployments.
+This project focuses on utilizing Ansible and Jenkins for efficient AWS infrastructure management. It aims to automate EC2 provisioning through Infrastructure as Code (IaC), ensuring reliable and streamlined deployments
 
 ## Technologies
 
