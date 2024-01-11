@@ -20,13 +20,13 @@
     ansible_python_interpreter: /usr/bin/python3.10
     keypair: devops
     instance_type: t2.micro
-    image_id: ami-05fb0b8c1424f266b
+    image_id: ami-05fb0b8c1424f266b # update ami ID
     wait: yes
     security_group: my-security-group  # Added this variable
     group: webserver
     count: 1
     region: us-east-2
-    vpc_id: vpc-0657d78c02ef86ae1
+    vpc_id: vpc-id 
     tag_name:
       Name: demo-ec2
 
@@ -71,7 +71,7 @@
           sudo apt install docker.io -y
           sudo systemctl start docker
           sudo systemctl enable docker
-          docker run -d --name game -p 8080:80 siri7474/docker-2048
+          docker run -d --name game -p 8080:80 siri/docker-2048
       register: ec2
       when: existing_instances.instances | length == 0
 
