@@ -356,4 +356,10 @@ pipeline {
         }
     }
 }
+```
+![build](screenshots/build.png)
+![ans](screenshots/ans-deployment.png)
 
+Retrieve the Public IP of the newly provisioned instance, visit <public-ip:8080>, and enjoy a game!
+
+![game](screenshots/game.png)
