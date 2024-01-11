@@ -221,3 +221,15 @@ search for Ansible and install
 
 ![jenkinspl](screenshots/jenkins-ansplugin.png)
 
+Now get path of installed ansible using following command:
+
+```
+which ansible
+```
+
+```
+ubuntu@ip-172-31-19-164:~$ which ansible
+/usr/bin/ansible
+```
+
+Copy that path and add it to the tools section of Jenkins at ansible installations.
